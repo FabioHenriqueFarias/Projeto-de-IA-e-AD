@@ -116,7 +116,7 @@ A função `analyze_audio_commands()` contabiliza a quantidade de arquivos de á
 
 - **Gráfico da Quantidade de Áudios por Comando**:
 
-![Quantidade de Áudios por Comando](out/analysis_descriptive/quantidade_audios_por_comando.png)
+![Quantidade de Áudios por Comando](src/out/analysis_descriptive/quantidade_audios_por_comando.png)
 
 O gráfico acima mostra a quantidade de áudios disponíveis para cada comando. Essa informação é fundamental para entender a distribuição dos dados e sua adequação para o treinamento do modelo.
 
@@ -126,7 +126,7 @@ A função `plot_audio_samples()` plota as formas de onda dos áudios para cada 
 
 - **Gráfico das Amostras de Áudio**:
 
-![Amostras de Áudio](out/analysis_descriptive/audio_samples.png)
+![Amostras de Áudio](src/out/analysis_descriptive/audio_samples.png)
 
 No gráfico acima, cada subplot representa um comando, e as diferentes linhas correspondem às formas de onda dos áudios associados a esse comando. Esta visualização ajuda a identificar padrões e variações nos dados de áudio, que são essenciais para o desenvolvimento e treinamento de modelos de aprendizado de máquina.
 
@@ -134,7 +134,7 @@ No gráfico acima, cada subplot representa um comando, e as diferentes linhas co
 
 O primeiro passo na análise foi visualizar a distribuição das durações dos áudios presentes no dataset Mini Speech Commands. A figura abaixo mostra a distribuição das durações dos áudios em segundos:
 
-![Duração dos Áudios](src/out/duracao_audios.png)
+![Duração dos Áudios](src/out/data_loading//duracao_audios.png)
 
 Essa visualização é fundamental para entender a variabilidade dos dados e pode influenciar diretamente as estratégias de treinamento dos modelos. Notamos que a maioria dos áudios se concentra em torno de 1.0 segundo, o que pode impactar a eficácia do modelo de classificação. Essa concentração sugere que o modelo pode se beneficiar de técnicas específicas de pré-processamento e otimização, ajustando suas configurações para lidar melhor com essa faixa de duração predominante. Compreender essa distribuição é essencial para garantir que o modelo generalize adequadamente em dados não vistos.
 
@@ -147,12 +147,12 @@ Além das formas de onda, o projeto também gera espectrogramas para cada comand
 Aqui estão algumas imagens de espectrogramas gerados para diferentes comandos:
 
 - **Comando "yes"**
-![Espectrograma do comando "yes"](out/audio_representation/yes/spectrogram_yes.png)
+![Espectrograma do comando "yes"](src/out/audio_representation/yes/audio_100.png)
 
 - **Comando "no"**
-![Espectrograma do comando "no"](out/audio_representation/no/spectrogram_no.png)
+![Espectrograma do comando "no"](src/out/audio_representation/no/audio_106.png)
 
 - **Comando "up"**
-![Espectrograma do comando "up"](out/audio_representation/up/spectrogram_up.png)
+![Espectrograma do comando "up"](src/out/audio_representation/up/audio_106.png)
 
 Esses espectrogramas ajudam a visualizar como os diferentes comandos se comportam em termos de frequência ao longo do tempo, oferecendo insights valiosos para o desenvolvimento do modelo de classificação. A análise dessas representações é crucial para entender como as informações sonoras estão codificadas e como isso pode afetar o desempenho do modelo.
