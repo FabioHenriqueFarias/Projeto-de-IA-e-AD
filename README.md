@@ -140,7 +140,8 @@ Essa visualização é fundamental para entender a variabilidade dos dados e pod
 
 ### Representação dos Áudios em Espectrograma
 
-Além das formas de onda, o projeto também gera espectrogramas para cada comando de áudio, permitindo uma análise mais detalhada das características temporais e de frequência dos sinais. Os espectrogramas são salvos em subdiretórios específicos dentro do diretório `out/audio_representation`, organizados por comando.
+Além das formas de onda, o projeto também gera espectrogramas para cada comando de áudio, permitindo uma análise mais detalhada das características temporais e de frequência dos sinais. Os espectrogramas são salvos em subdiretórios específicos dentro do diretório [`out/audio_representation`](https://github.com/FabioHenriqueFarias/Projeto-de-IA-e-AD/tree/main/src/out/audio_representation)
+, organizados por comando.
 
 #### Exemplos de Espectrogramas
 
