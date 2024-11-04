@@ -19,9 +19,9 @@ Este projeto tem como objetivo desenvolver um modelo de aprendizado de máquina 
 
 A estrutura do projeto é organizada em dois diretórios principais, cada um contendo um README específico que orienta sobre a execução e configuração:
 
-- **[Analise De Dados](Analise De Dados)**: Este diretório abriga scripts dedicados à análise descritiva e inferencial dos dados. As análises realizadas aqui fornecem insights sobre a distribuição dos comandos de voz e exploram visualmente as características dos espectrogramas e formas de onda.
+- **[Analise De Dados](https://github.com/FabioHenriqueFarias/Projeto-de-IA-e-AD/tree/main/Analise%20De%20Dados)**: Este diretório abriga scripts dedicados à análise descritiva e inferencial dos dados. As análises realizadas aqui fornecem insights sobre a distribuição dos comandos de voz e exploram visualmente as características dos espectrogramas e formas de onda.
 
-- **[IA](IA)**: Este diretório é focado no desenvolvimento do modelo de aprendizado de máquina. Aqui você encontrará o modelo de **Rede Neural Convolucional (CNN)**, scripts para pré-processamento dos dados, geração de espectrogramas e o treinamento necessário para a classificação dos comandos de voz.
+- **[IA](https://github.com/FabioHenriqueFarias/Projeto-de-IA-e-AD/tree/main/IA)**: Este diretório é focado no desenvolvimento do modelo de aprendizado de máquina. Aqui você encontrará o modelo de **Rede Neural Convolucional (CNN)**, scripts para pré-processamento dos dados, geração de espectrogramas e o treinamento necessário para a classificação dos comandos de voz.
 
 ## Execução
 

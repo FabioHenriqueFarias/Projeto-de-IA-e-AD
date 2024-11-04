@@ -14,10 +14,14 @@
 - [Requisitos](#requisitos)
 - [Estrutura de Diretórios](#estrutura-de-diretórios)
 
+## Descrição do Projeto
+
+O projeto realiza uma análise descritiva e visual do conjunto de dados **Mini Speech Commands**, o qual contém gravações de comandos de voz em formato `.wav`. A análise inclui o pré-processamento dos dados, a visualização de formas de onda e espectrogramas, e a verificação da distribuição das durações dos áudios. Essa investigação é um passo inicial para a criação de um modelo de aprendizado de máquina que classifique comandos de voz a partir dos dados de áudio.
+
 
 ## Arquivos e Funções
 
-### [main.py](src/main.py)
+### [main.py](https://github.com/FabioHenriqueFarias/Projeto-de-IA-e-AD/blob/main/Analise%20De%20Dados/src/main.py)
 
 O `main.py` é o ponto de entrada do projeto, responsável por integrar todas as partes do fluxo de trabalho. As suas principais responsabilidades incluem:
 - **Download e extração do conjunto de dados:** Invoca a função que baixa e extrai o dataset `mini_speech_commands` caso não esteja presente.
@@ -27,7 +31,7 @@ O `main.py` é o ponto de entrada do projeto, responsável por integrar todas as
 - **Geração de representações gráficas:** Executa a função que gera gráficos de forma de onda e espectrogramas para todos os comandos de áudio.
 - **Análises descritivas:** Realiza a contagem e visualização da quantidade de áudios por comando, bem como a visualização das formas de onda de amostras.
 
-### [data_loading.py](src/data_loading.py)
+### [data_loading.py](https://github.com/FabioHenriqueFarias/Projeto-de-IA-e-AD/blob/main/Analise%20De%20Dados/src/data_loading.py)
 
 Este módulo é responsável pela gestão do conjunto de dados, incluindo download, listagem e análise. Suas principais funções incluem:
 - **`download_and_extract_data()`**: Baixa e extrai o conjunto de dados `mini_speech_commands`, garantindo que os dados estejam disponíveis para uso.
@@ -44,7 +48,7 @@ Este módulo é responsável pela gestão do conjunto de dados, incluindo downlo
 - **`load_waveforms()`**: Carrega os arquivos de áudio e os converte em formas de onda, retornando um dicionário que relaciona cada comando com suas formas de onda correspondentes.
   - **Retorno:** Um dicionário com os nomes dos comandos como chaves e listas de formas de onda (arrays) como valores.
 
-### [audio_representation.py](src/audio_representation.py)
+### [audio_representation.py](https://github.com/FabioHenriqueFarias/Projeto-de-IA-e-AD/blob/main/Analise%20De%20Dados/src/audio_representation.py)
 
 Este módulo é responsável por criar representações gráficas dos áudios, oferecendo uma visualização clara dos dados. As funções incluem:
 - **`plot_waveform(waveform, title="Forma de Onda")`**: Plota a forma de onda do áudio fornecido, facilitando a visualização da amplitude ao longo do tempo.
@@ -61,7 +65,7 @@ Este módulo é responsável por criar representações gráficas dos áudios, o
 
 - **`generate_all_plots(waveforms)`**: Itera sobre todas as formas de onda no dataset e gera gráficos de forma de onda e espectrograma para cada um, salvando-os em seus respectivos diretórios.
 
-### [analysis_descriptive.py](src/analysis_descriptive.py)
+### [analysis_descriptive.py](https://github.com/FabioHenriqueFarias/Projeto-de-IA-e-AD/blob/main/Analise%20De%20Dados/src/analysis_descriptive.py)
 
 Este módulo realiza análises descritivas do conjunto de dados, oferecendo insights quantitativos. As funções incluem:
 - **`analyze_audio_commands()`**: Conta e plota a quantidade de áudios disponíveis para cada comando, proporcionando uma visão geral da distribuição do dataset.
@@ -106,7 +110,7 @@ Abaixo estão exemplos de espectrogramas gerados para comandos de voz, que ilust
 
 ![Espectrograma do Comando "up"](src/out/audio_representation/up/audio_106.png)
 
-Esses espectrogramas ilustram como a energia do sinal varia ao longo do tempo e das frequências, permitindo a identificação de harmônicos, ruídos e outros elementos sonoros que podem ser cruciais para a classificação precisa dos comandos de voz. Para explorar mais espectrogramas, acesse o diretório [out]()`, onde você encontrará representações visuais para cada comando específico. Basta selecionar o comando desejado, indicado como `[#comando]`, para visualizar os espectrogramas correspondentes.
+Esses espectrogramas ilustram como a energia do sinal varia ao longo do tempo e das frequências, permitindo a identificação de harmônicos, ruídos e outros elementos sonoros que podem ser cruciais para a classificação precisa dos comandos de voz. Para explorar mais espectrogramas, acesse o diretório [out](https://github.com/FabioHenriqueFarias/Projeto-de-IA-e-AD/tree/main/Analise%20De%20Dados/src/out), onde você encontrará representações visuais para cada comando específico. Basta selecionar o comando desejado, indicado como `[#comando]`, para visualizar os espectrogramas correspondentes.
 
 ## Como Executar o Projeto
 
