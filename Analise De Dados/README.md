@@ -110,7 +110,7 @@ Abaixo estão exemplos de espectrogramas gerados para comandos de voz, que ilust
 
 ![Espectrograma do Comando "up"](src/out/audio_representation/up/audio_106.png)
 
-Esses espectrogramas ilustram como a energia do sinal varia ao longo do tempo e das frequências, permitindo a identificação de harmônicos, ruídos e outros elementos sonoros que podem ser cruciais para a classificação precisa dos comandos de voz. Para explorar mais espectrogramas, acesse o diretório [out](https://github.com/FabioHenriqueFarias/Projeto-de-IA-e-AD/tree/main/Analise%20De%20Dados/src/out), onde você encontrará representações visuais para cada comando específico. Basta selecionar o comando desejado, indicado como `[#comando]`, para visualizar os espectrogramas correspondentes.
+Esses espectrogramas ilustram como a energia do sinal varia ao longo do tempo e das frequências, permitindo a identificação de harmônicos, ruídos e outros elementos sonoros que podem ser cruciais para a classificação precisa dos comandos de voz. Para explorar mais espectrogramas, acesse o diretório [out/audio_representation](https://github.com/FabioHenriqueFarias/Projeto-de-IA-e-AD/tree/main/Analise%20De%20Dados/src/out/audio_representation), onde você encontrará representações visuais para cada comando específico. Basta selecionar o comando desejado, indicado como `[#comando]`, para visualizar os espectrogramas correspondentes.
 
 ## Como Executar o Projeto
 
