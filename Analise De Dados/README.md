@@ -127,7 +127,7 @@ Esses espectrogramas ilustram como a energia do sinal varia ao longo do tempo e 
 ## Requisitos
 
 - Python 3.7 ou superior
-- Bibliotecas: `tensorflow`, `librosa`, `matplotlib`, `numpy`
+- Bibliotecas: `tensorflow`, `matplotlib`, `numpy`
 
 ## Estrutura de Diretórios
 

@@ -38,7 +38,6 @@ Antes de começar, verifique se você tem o Python 3.7 ou superior instalado, be
 - **SciPy**
 
 Para instalar todas as dependências necessárias, execute o seguinte comando na raiz do projeto:
->>>>>>> d809e34 (Primeiro commit após reconfiguração)
 
 ```bash
 pip install -r requirements.txt
