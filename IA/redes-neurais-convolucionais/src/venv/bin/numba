@@ -1,0 +1,8 @@
+#!/home/fabio/Documentos/UNA/A3/IA/redes-neurais-convolucionais/src/venv/bin/python3
+# -*- coding: UTF-8 -*-
+from __future__ import print_function, division, absolute_import
+
+from numba.misc.numba_entry import main
+
+if __name__ == "__main__":
+    main()
