@@ -1,4 +1,4 @@
-# Análise e Treinamento do Modelo de Comandos de Voz
+# Voice Command Classification Project with Convolutional neural network 
 
 Este projeto visa a construção e avaliação de um modelo de aprendizado de máquina para reconhecimento de comandos de voz. O processo envolve o pré-processamento dos dados de áudio, treinamento de um modelo convolucional para classificação de espectrogramas de áudio e a avaliação do modelo utilizando um conjunto de dados de teste.
 
@@ -15,6 +15,9 @@ Este projeto visa a construção e avaliação de um modelo de aprendizado de m�
 - [Avaliação do Modelo](#avaliação-do-modelo)
 - [Como Executar o Projeto](#como-executar-o-projeto)
 - [Como Usar `evaluation.py`](#como-usar-evaluationpy)
+- [Resultados de Avaliação](#resultados-de-avaliação)
+  - [Matriz de Confusão](#matriz-de-confusão)
+  - [Gráfico de Dispersão](#gráfico-de-dispersão)
 - [Requisitos](#requisitos)
 
 ## Descrição do Projeto
@@ -23,73 +26,52 @@ Este projeto tem como objetivo treinar e avaliar um modelo de rede neural convol
 
 ## Arquivos e Funções
 
-### [model.py](https://github.com/FabioHenriqueFarias/Projeto-de-IA-e-AD/blob/main/IA/redes-neurais-convolucionais/src/model.py)
+### model.py
 
-Este arquivo define a arquitetura do modelo de rede neural convolucional (CNN) para classificação dos comandos de voz. A função `create_model()` constrói e compila o modelo com três camadas convolucionais seguidas de camadas densas para a classificação final.
+Define a arquitetura do modelo de rede neural convolucional (CNN) para classificação dos comandos de voz.
 
 - **`create_model(input_shape=(128, 128, 1), num_classes=8)`**: Cria e compila um modelo CNN.
-  - **Parâmetros:**
-    - `input_shape`: Define a forma da entrada (normalmente espectrogramas de 128x128).
-    - `num_classes`: Número de classes (comandos de voz).
-  - **Retorno:** Um modelo compilado, pronto para treinamento.
 
-### [evaluation.py](https://github.com/FabioHenriqueFarias/Projeto-de-IA-e-AD/blob/main/IA/redes-neurais-convolucionais/src/evaluation.py)
+### evaluation.py
 
-Este arquivo é responsável por carregar o modelo treinado e avaliar sua performance utilizando um conjunto de dados de teste. Ele também gera um relatório de classificação e uma matriz de confusão para avaliar a precisão do modelo.
+Carrega o modelo treinado e avalia sua performance utilizando um conjunto de dados de teste, gerando um relatório de classificação e uma matriz de confusão.
 
-- **`load_trained_model(model_path="speech_command_model.h5")`**: Carrega o modelo treinado a partir do caminho especificado.
+- **`load_trained_model(model_path="speech_command_model.h5")`**: Carrega o modelo treinado.
 - **`load_eval_data(eval_data_path="data/assessment/")`**: Carrega os dados de avaliação, processando os arquivos de áudio em espectrogramas.
-- **`evaluate_model(model, x_eval, y_eval)`**: Avalia o modelo carregado com os dados de avaliação e exibe o relatório de classificação e matriz de confusão.
+- **`evaluate_model(model, x_eval, y_eval)`**: Avalia o modelo carregado e exibe o relatório de classificação e matriz de confusão.
 
-### [training.py](https://github.com/FabioHenriqueFarias/Projeto-de-IA-e-AD/blob/main/IA/redes-neurais-convolucionais/src/training.py)
+### training.py
 
-Este arquivo é responsável por carregar os dados, dividir em conjuntos de treinamento e validação, e treinar o modelo CNN. Após o treinamento, o modelo é salvo para posterior avaliação.
+Carrega os dados, divide-os em conjuntos de treinamento e validação e treina o modelo CNN. Após o treinamento, o modelo é salvo para posterior avaliação.
 
 - **`load_data(data_dir="data/processed")`**: Carrega os dados processados (espectrogramas) para treinamento.
 - **`train_model(epochs=10, batch_size=32)`**: Treina o modelo utilizando os dados carregados.
-  - **Parâmetros:**
-    - `epochs`: Número de épocas de treinamento.
-    - `batch_size`: Tamanho do lote de dados durante o treinamento.
-  - **Retorno:** O modelo treinado.
 
-### [data_preprocessing.py](https://github.com/FabioHenriqueFarias/Projeto-de-IA-e-AD/blob/main/IA/redes-neurais-convolucionais/src/data_preprocessing.py)
+### data_preprocessing.py
 
-Este arquivo contém as funções para pré-processar os arquivos de áudio, convertendo-os em espectrogramas log-mel, que são então usados para treinamento e avaliação do modelo.
+Contém as funções para pré-processar os arquivos de áudio, convertendo-os em espectrogramas log-mel.
 
 - **`preprocess_audio(file_path, target_sr=16000)`**: Converte o arquivo de áudio em um espectrograma log-mel.
-- **`save_spectrogram(spectrogram, save_path)`**: Salva o espectrograma processado no formato `.npy`.
 - **`process_all_commands()`**: Processa todos os comandos de voz e salva seus espectrogramas correspondentes.
 
-### [main.py](https://github.com/FabioHenriqueFarias/Projeto-de-IA-e-AD/blob/main/IA/redes-neurais-convolucionais/src/main.py)
+### main.py
 
-Este arquivo orquestra as principais etapas do projeto, permitindo executar o pré-processamento dos dados, criar o modelo CNN e treinar o modelo.
-
-- **`preprocess_data()`**: Executa o pré-processamento dos dados de áudio e os converte em espectrogramas.
-- **`build_model()`**: Cria o modelo CNN para a classificação dos comandos de voz.
-- **`train_model()`**: Pode ser chamado para treinar o modelo após a criação.
+Orquestra as principais etapas do projeto, permitindo executar o pré-processamento dos dados, criar o modelo CNN e treinar o modelo.
 
 ## Pré-processamento de Dados
 
-O pré-processamento dos dados envolve a conversão dos arquivos de áudio em espectrogramas log-mel. Esses espectrogramas são então redimensionados para um formato adequado para a entrada do modelo.
-
-- **Carregamento do áudio**: Usamos a biblioteca `librosa` para carregar os arquivos de áudio e normalizar para uma taxa de amostragem padrão.
-- **Conversão para espectrograma**: O áudio é convertido para um espectrograma log-mel, que captura as características espectrais mais relevantes para a tarefa de classificação.
-- **Salvamento dos espectrogramas**: Cada espectrograma é salvo em formato `.npy` para posterior uso no treinamento do modelo.
+O pré-processamento dos dados envolve a conversão dos arquivos de áudio em espectrogramas log-mel, que são então usados para treinamento e avaliação do modelo.
 
 ## Treinamento do Modelo
 
-O treinamento do modelo é realizado utilizando uma rede neural convolucional (CNN), que é ideal para tarefas de classificação de imagens, como espectrogramas de áudio.
-
-- **Divisão dos dados**: Os dados são divididos em conjuntos de treinamento e validação, com 80% dos dados usados para treinamento e 20% para validação.
-- **Treinamento do modelo**: O modelo é treinado utilizando o algoritmo de otimização `Adam` e a função de perda `sparse_categorical_crossentropy`, com a métrica de precisão.
-- **Salvamento do modelo**: Após o treinamento, o modelo é salvo no formato `.h5` para que possa ser carregado e avaliado posteriormente.
+O treinamento do modelo é realizado utilizando uma rede neural convolucional (CNN), dividindo os dados em conjuntos de treinamento e validação, e salvando o modelo após o treinamento.
 
 ## Avaliação do Modelo
 
-A avaliação do modelo é feita utilizando um conjunto de dados de avaliação, que é processado de forma similar ao conjunto de treinamento (convertido em espectrogramas). O modelo é carregado e usado para fazer previsões sobre os dados de avaliação. Os resultados incluem:
+A avaliação do modelo é feita utilizando um conjunto de dados de avaliação, que é processado de forma similar ao conjunto de treinamento (convertido em espectrogramas). Os resultados incluem:
 
-- **Relatório de classificação**: Exibe a precisão, recall e F1-score para cada classe de comando de voz.
-- **Matriz de confusão**: Mostra o desempenho do modelo, visualizando os acertos e erros para cada classe de comando.
+- **Relatório de classificação**: Exibe precisão, recall e F1-score para cada classe de comando de voz.
+- **Matriz de confusão**: Visualiza o desempenho do modelo em cada classe.
 
 ## Como Executar o Projeto
 
@@ -107,60 +89,57 @@ A avaliação do modelo é feita utilizando um conjunto de dados de avaliação,
     python main.py
     ```
     Isso irá processar os arquivos de áudio e salvar os espectrogramas.
-4. **Crie e treine o modelo** (caso queira treinar após o pré-processamento):
+4. **Treine o modelo** (caso queira treinar após o pré-processamento):
     ```bash
     python main.py
     ```
 
 ## Como Usar `evaluation.py`
 
-O arquivo `evaluation.py` é responsável por carregar o modelo treinado, carregar os dados de avaliação (espectrogramas de comandos de voz) e calcular a acurácia, o relatório de classificação e a matriz de confusão. Este script é útil para avaliar o desempenho do modelo após o treinamento.
-
-### Etapas para usar `evaluation.py`
-
 1. **Prepare os Dados de Avaliação**  
-   Certifique-se de que os dados de avaliação estejam no formato correto. O script espera os dados em pastas, onde o nome da pasta corresponde ao comando de voz (por exemplo, `down`, `go`, `left`, etc.). Os arquivos de áudio devem estar no formato `.wav` e dentro de suas respectivas pastas.
+   Verifique que os dados de avaliação estão organizados corretamente e prontos para uso.
 
 2. **Carregue o Modelo Treinado**  
-   O `evaluation.py` carrega automaticamente o modelo treinado que foi salvo durante o processo de
+   Certifique-se de que o modelo treinado está salvo no diretório especificado.
 
- treinamento. O caminho do modelo é configurado pela variável `MODEL_PATH`. Certifique-se de que o modelo treinado (`speech_command_model.h5`) esteja localizado no diretório especificado.
-
-3. **Execute a Avaliação**  
-   Após garantir que os dados de avaliação estejam prontos e o modelo treinado esteja salvo, execute o script `evaluation.py`. Ele irá:
-   - Carregar o modelo treinado.
-   - Carregar os dados de avaliação (espectrogramas processados).
-   - Calcular a acurácia.
-   - Gerar um relatório de classificação, mostrando precisão, recall e F1-score para cada comando de voz.
-   - Exibir a matriz de confusão, mostrando os erros e acertos para cada classe de comando.
-
-### Como Executar `evaluation.py`
-
-1. **Clone o repositório** (caso ainda não tenha feito):
-    ```bash
-    git clone https://github.com/FabioHenriqueFarias/Projeto-de-IA-e-AD.git
-    cd Projeto-de-IA-e-AD/IA/redes-neurais-convolucionais
-    ```
-
-2. **Instale as dependências** (caso ainda não tenha feito):
-    ```bash
-    pip install -r requirements.txt
-    ```
-
-3. **Execute o script de avaliação**:
+3. **Execute a Avaliação**:
     ```bash
     python src/evaluation.py
     ```
 
-Após a execução, o script exibirá a **acurácia**, o **relatório de classificação** e a **matriz de confusão** no terminal, permitindo que você avalie o desempenho do modelo nos dados de avaliação.
+## Resultados de Avaliação
 
-### Resultados Esperados
+Após a execução do script `evaluation.py`, obtivemos os seguintes resultados:
 
-Após rodar o `evaluation.py`, você verá algo semelhante a isso no terminal:
+### Acurácia
+- **88.45%**
 
-- **Acurácia**: Uma métrica que mostra a precisão geral do modelo.
-- **Relatório de Classificação**: Mostra as métricas de **precisão**, **recall** e **F1-score** para cada classe (comando de voz).
-- **Matriz de Confusão**: Visualiza os erros cometidos pelo modelo para cada classe. Essa matriz pode ajudar a identificar quais comandos estão sendo mais confundidos.
+### Relatório de Classificação
+| Comando | Precision | Recall | F1-Score | Suporte |
+| ------- | --------- | ------ | -------- | ------- |
+| down    | 0.82      | 0.93   | 0.87     | 1000    |
+| go      | 0.90      | 0.67   | 0.77     | 1000    |
+| left    | 0.92      | 0.91   | 0.91     | 1000    |
+| no      | 0.80      | 0.85   | 0.83     | 1000    |
+| right   | 0.89      | 0.94   | 0.91     | 1000    |
+| stop    | 0.95      | 0.93   | 0.94     | 1000    |
+| up      | 0.88      | 0.91   | 0.89     | 1000    |
+| yes     | 0.94      | 0.94   | 0.94     | 1000    |
+
+- **Média Macro:** Precisão: 0.89 | Recall: 0.88 | F1-score: 0.88
+- **Média Ponderada:** Precisão: 0.89 | Recall: 0.88 | F1-score: 0.88
+
+### Matriz de Confusão
+
+A matriz de confusão ajuda a visualizar o desempenho do modelo, mostrando onde ele acerta ou confunde os comandos. As linhas representam os comandos reais, enquanto as colunas representam as previsões feitas pelo modelo. Valores altos na diagonal principal indicam boas predições, enquanto valores fora da diagonal indicam confusões entre comandos. Este insight é essencial para identificar padrões de erro, que podem guiar futuras melhorias no modelo.
+
+![Matriz de Confusão](./src/out/confusion_matrix.png)
+
+### Gráfico de Dispersão
+
+O gráfico de dispersão, gerado através de uma análise de componentes principais (PCA), reduz a dimensionalidade dos dados de avaliação para permitir uma visualização mais clara das relações entre os comandos. No gráfico, cada ponto representa uma previsão de comando, e as cores distintas correspondem a diferentes classes. Este gráfico permite observar clusters de comandos corretamente classificados e eventuais sobreposições, indicando onde o modelo pode ter dificuldades em distinguir comandos similares.
+
+![Gráfico de Dispersão](./src/out/scatter_plot.png)
 
 ## Requisitos
 
