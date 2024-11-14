@@ -1,7 +1,3 @@
-Aqui está o README.md com base na sua descrição do projeto usando Árvores de Decisão, seguindo a estrutura solicitada:
-
----
-
 # Voice Command Classification with Decision Tree
 
 Este projeto visa a construção e avaliação de um modelo de aprendizado de máquina para reconhecimento de comandos de voz, utilizando Árvores de Decisão. O processo envolve o pré-processamento dos dados de áudio, treinamento do modelo e a avaliação do desempenho do modelo com base em um conjunto de dados de teste.
@@ -132,6 +128,3 @@ Instale as dependências com o comando:
 pip install -r requirements.txt
 ```
 
----
-
-Esse README estrutura e detalha as etapas de seu projeto com base nas árvores de decisão. Ele explica as funções principais de cada script, como rodar o código e os resultados obtidos com a avaliação do modelo.
