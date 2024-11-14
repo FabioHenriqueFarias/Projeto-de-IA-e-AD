@@ -109,13 +109,13 @@ Após a execução do script `main.py`, obtivemos os seguintes resultados:
 
 A matriz de confusão é gerada automaticamente e salva como uma imagem. Ela visualiza o desempenho do modelo, mostrando onde ele acerta ou confunde os comandos. As células na diagonal principal indicam boas predições, enquanto as células fora da diagonal mostram onde o modelo comete erros.
 
-![Matriz de Confusão](./out/confusion_matrix.png)
+![Matriz de Confusão](./src/out/confusion_matrix.png)
 
 ### Gráfico de Dispersão
 
 O gráfico de dispersão é gerado após reduzir a dimensionalidade dos dados de teste para 2D utilizando PCA. Cada ponto no gráfico representa uma previsão, com a cor indicando a classe prevista.
 
-![Gráfico de Dispersão](./out/decision_tree_scatter_plot.png)
+![Gráfico de Dispersão](./src/out/decision_tree_scatter_plot.png)
 
 ## Requisitos
 
