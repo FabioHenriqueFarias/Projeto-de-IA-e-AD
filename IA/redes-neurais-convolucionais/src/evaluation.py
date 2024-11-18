@@ -69,6 +69,16 @@ def save_confusion_matrix(y_true, y_pred, output_dir=OUTPUT_DIR):
     plt.close()
     print(f"Matriz de confusão salva em {output_dir}/confusion_matrix.png")
 
+# Função para salvar o relatório de classificação
+def save_classification_report(y_true, y_pred, output_dir=OUTPUT_DIR):
+    os.makedirs(output_dir, exist_ok=True)
+    report = classification_report(y_true, y_pred, target_names=COMMANDS)
+    report_path = os.path.join(output_dir, "classification_report.txt")
+    with open(report_path, "w") as f:
+        f.write(report)
+    print(f"Relatório de classificação salvo em {report_path}")
+
+
 # Função para salvar o gráfico de dispersão
 def save_scatter_plot(x_eval, y_pred, output_dir=OUTPUT_DIR):
     os.makedirs(output_dir, exist_ok=True)
@@ -98,8 +108,13 @@ def evaluate_model(model, x_eval, y_eval):
     print(f"Acurácia: {accuracy * 100:.2f}%")
     print("Relatório de Classificação:\n", classification_report(y_eval, y_pred_classes, target_names=COMMANDS))
 
+    # Salvar a matriz de confusão
     save_confusion_matrix(y_eval, y_pred_classes)
+    # Salvar o gráfico de dispersão
     save_scatter_plot(x_eval, y_pred_classes)
+    # Salvar o relatório de classificação
+    save_classification_report(y_eval, y_pred_classes)
+
 
 # Executa o processo de avaliação
 if __name__ == "__main__":

@@ -1,71 +1,88 @@
-import streamlit as st
 import os
-from PIL import Image
+import pandas as pd
+import matplotlib.pyplot as plt
 
-# Configuração do Streamlit
-st.set_page_config(page_title="Dashboard - Análise e Modelos", layout="wide")
+def find_file(directory, filename):
+    """Busca um arquivo específico em um diretório e subdiretórios."""
+    for root, _, files in os.walk(directory):
+        if filename in files:
+            return os.path.join(root, filename)
+    return None
 
-# Diretórios de saída
-OUTPUT_DIR = "./out"
+def load_csv_data(file_path):
+    """Carrega um arquivo CSV em um DataFrame do Pandas."""
+    if file_path is None:
+        return None
+    try:
+        return pd.read_csv(file_path)
+    except FileNotFoundError:
+        return None
 
-# Seções do Dashboard
-st.title("Dashboard de Análise de Dados e Modelos")
-st.markdown("### Uma visão centralizada dos resultados")
+def load_image(file_path):
+    """Carrega uma imagem de gráfico se o arquivo existir."""
+    if file_path is None:
+        return None
+    return file_path if os.path.exists(file_path) else None
 
-# 1. Análise dos Dados
-st.header("📊 Análise dos Dados")
-st.subheader("Distribuição das Durações dos Áudios")
-durations_img_path = os.path.join(OUTPUT_DIR, "data_loading", "duracao_audios.png")
+def list_directory(directory):
+    """Lista todos os arquivos e diretórios em um diretório."""
+    for root, dirs, files in os.walk(directory):
+        level = root.replace(directory, '').count(os.sep)
+        indent = ' ' * 4 * (level)
+        print(f"{indent}{os.path.basename(root)}/")
+        subindent = ' ' * 4 * (level + 1)
+        for f in files:
+            print(f"{subindent}{f}")
 
-if os.path.exists(durations_img_path):
-    st.image(durations_img_path, caption="Distribuição das Durações dos Áudios")
+import os
+
+# Diretório raiz do projeto
+ROOT_DIR = os.path.abspath(os.path.join(os.path.dirname(__file__), "../../.."))
+print(f"ROOT_DIR calculado: {ROOT_DIR}")
+
+# Diretórios e arquivos esperados
+duration_data_path = find_file(os.path.join(ROOT_DIR, "Analise de Dados"), "duracao_audios.csv")
+confusion_matrix_path = find_file(os.path.join(ROOT_DIR, "IA/redes-neurais-convolucionais/src/out"), "confusion_matrix.png")
+scatter_plot_path = find_file(os.path.join(ROOT_DIR, "IA/redes-neurais-convolucionais/src/out"), "scatter_plot.png")
+classification_report_path = find_file(os.path.join(ROOT_DIR, "IA/redes-neurais-convolucionais/src/out"), "classification_report.txt")
+
+# Adicionando prints para depuração
+print(f"Duration Data Path: {duration_data_path}")
+print(f"Confusion Matrix Path: {confusion_matrix_path}")
+print(f"Scatter Plot Path: {scatter_plot_path}")
+print(f"Classification Report Path: {classification_report_path}")
+
+
+# Carregar dados
+duration_data = load_csv_data(duration_data_path)
+confusion_matrix_image = load_image(confusion_matrix_path)
+scatter_plot_image = load_image(scatter_plot_path)
+
+# Atualização no dashboard
+print("Dashboard de Análise de Dados e Modelos")
+print("Uma visão centralizada dos resultados")
+
+print("\n📊 Análise dos Dados")
+if duration_data is not None:
+    print("Distribuição das Durações dos Áudios")
+    print(duration_data.describe())
 else:
-    st.warning("Gráfico de distribuição das durações não encontrado.")
+    print("Gráfico de distribuição das durações não encontrado.")
 
-# 2. Modelos
-st.header("🧠 Resultados dos Modelos")
-model_tabs = st.tabs(["Árvore de Decisão", "SVM", "CNN"])
+print("\n🧠 Resultados dos Modelos")
+print("\nÁrvore de Decisão")
+# Adicione dados da Árvore de Decisão quando disponíveis.
 
-# Função para carregar métricas e gráficos
-def display_model_results(model_name, conf_matrix_file, scatter_plot_file, metrics_text):
-    st.subheader(f"Matriz de Confusão - {model_name}")
-    if os.path.exists(conf_matrix_file):
-        st.image(conf_matrix_file)
-    else:
-        st.warning(f"Matriz de Confusão do {model_name} não encontrada.")
+print("\nSVM")
+# Adicione dados do SVM quando disponíveis.
 
-    st.subheader(f"Gráfico de Dispersão - {model_name}")
-    if os.path.exists(scatter_plot_file):
-        st.image(scatter_plot_file)
-    else:
-        st.warning(f"Gráfico de Dispersão do {model_name} não encontrado.")
-    
-    st.subheader("Relatório de Classificação")
-    st.text(metrics_text)
+print("\nCNN")
+if confusion_matrix_image:
+    print(f"Matriz de Confusão - CNN: {confusion_matrix_image}")
+else:
+    print("Matriz de Confusão do CNN não encontrada.")
 
-# Árvore de Decisão
-with model_tabs[0]:
-    display_model_results(
-        "Árvore de Decisão",
-        os.path.join(OUTPUT_DIR, "confusion_matrix.png"),
-        os.path.join(OUTPUT_DIR, "decision_tree_scatter_plot.png"),
-        "Relatório gerado no treinamento da Árvore de Decisão."
-    )
-
-# SVM
-with model_tabs[1]:
-    display_model_results(
-        "SVM",
-        os.path.join(OUTPUT_DIR, "svm_confusion_matrix.png"),
-        os.path.join(OUTPUT_DIR, "svm_scatter_plot.png"),
-        "Relatório gerado no treinamento do SVM."
-    )
-
-# CNN
-with model_tabs[2]:
-    display_model_results(
-        "CNN",
-        os.path.join(OUTPUT_DIR, "confusion_matrix_cnn.png"),
-        os.path.join(OUTPUT_DIR, "cnn_scatter_plot.png"),
-        "Relatório gerado na avaliação do modelo CNN."
-    )
+if scatter_plot_image:
+    print(f"Gráfico de Dispersão - CNN: {scatter_plot_image}")
+else:
+    print("Gráfico de Dispersão do CNN não encontrado.")
