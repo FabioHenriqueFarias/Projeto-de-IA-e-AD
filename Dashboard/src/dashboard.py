@@ -1,16 +1,31 @@
-import os
+# dashboard.py
+
+from flask import Flask, render_template
 import pandas as pd
-import matplotlib.pyplot as plt
+import os
+import dash
+import dash_core_components as dcc
+import dash_html_components as html
+import plotly.express as px
 
-def find_file(directory, filename):
-    """Busca um arquivo específico em um diretório e subdiretórios."""
-    for root, _, files in os.walk(directory):
-        if filename in files:
-            return os.path.join(root, filename)
-    return None
+app = Flask(__name__)
 
+# Configuração do Dash
+dash_app = dash.Dash(__name__, server=app, url_base_pathname='/dashboard/')
+dash_app.layout = html.Div([
+    html.H1("Dashboard de Análise de Dados e Modelos"),
+    dcc.Tabs([
+        dcc.Tab(label='Análise dos Dados', children=[
+            html.Div(id='data-analysis-content')
+        ]),
+        dcc.Tab(label='Resultados dos Modelos', children=[
+            html.Div(id='model-results-content')
+        ])
+    ])
+])
+
+# Função para carregar dados
 def load_csv_data(file_path):
-    """Carrega um arquivo CSV em um DataFrame do Pandas."""
     if file_path is None:
         return None
     try:
@@ -18,71 +33,56 @@ def load_csv_data(file_path):
     except FileNotFoundError:
         return None
 
+# Função para carregar imagem
 def load_image(file_path):
-    """Carrega uma imagem de gráfico se o arquivo existir."""
     if file_path is None:
         return None
     return file_path if os.path.exists(file_path) else None
 
-def list_directory(directory):
-    """Lista todos os arquivos e diretórios em um diretório."""
-    for root, dirs, files in os.walk(directory):
-        level = root.replace(directory, '').count(os.sep)
-        indent = ' ' * 4 * (level)
-        print(f"{indent}{os.path.basename(root)}/")
-        subindent = ' ' * 4 * (level + 1)
-        for f in files:
-            print(f"{subindent}{f}")
-
-import os
-
-# Diretório raiz do projeto
-ROOT_DIR = os.path.abspath(os.path.join(os.path.dirname(__file__), "../../.."))
-print(f"ROOT_DIR calculado: {ROOT_DIR}")
-
-# Diretórios e arquivos esperados
-duration_data_path = find_file(os.path.join(ROOT_DIR, "Analise de Dados"), "duracao_audios.csv")
-confusion_matrix_path = find_file(os.path.join(ROOT_DIR, "IA/redes-neurais-convolucionais/src/out"), "confusion_matrix.png")
-scatter_plot_path = find_file(os.path.join(ROOT_DIR, "IA/redes-neurais-convolucionais/src/out"), "scatter_plot.png")
-classification_report_path = find_file(os.path.join(ROOT_DIR, "IA/redes-neurais-convolucionais/src/out"), "classification_report.txt")
-
-# Adicionando prints para depuração
-print(f"Duration Data Path: {duration_data_path}")
-print(f"Confusion Matrix Path: {confusion_matrix_path}")
-print(f"Scatter Plot Path: {scatter_plot_path}")
-print(f"Classification Report Path: {classification_report_path}")
-
+# Caminhos dos arquivos
+ROOT_DIR = os.path.expanduser("~/Documentos/UNA/A3")
+duration_data_path = os.path.join(ROOT_DIR, "Analise De Dados", "src", "out", "data_loading", "duracao_audios.csv")
+confusion_matrix_path = os.path.join(ROOT_DIR, "IA", "redes-neurais-convolucionais", "src", "out", "confusion_matrix.png")
+scatter_plot_path = os.path.join(ROOT_DIR, "IA", "redes-neurais-convolucionais", "src", "out", "scatter_plot.png")
 
 # Carregar dados
 duration_data = load_csv_data(duration_data_path)
-confusion_matrix_image = load_image(confusion_matrix_path)
-scatter_plot_image = load_image(scatter_plot_path)
 
-# Atualização no dashboard
-print("Dashboard de Análise de Dados e Modelos")
-print("Uma visão centralizada dos resultados")
+# Rota principal
+@app.route('/')
+def index():
+    return render_template('index.html')
 
-print("\n📊 Análise dos Dados")
-if duration_data is not None:
-    print("Distribuição das Durações dos Áudios")
-    print(duration_data.describe())
-else:
-    print("Gráfico de distribuição das durações não encontrado.")
+# Callback para atualizar o conteúdo da aba de análise de dados
+@dash_app.callback(
+    dash.dependencies.Output('data-analysis-content', 'children'),
+    []
+)
+def update_data_analysis():
+    if duration_data is not None:
+        fig = px.histogram(duration_data, x='duration', title='Distribuição das Durações dos Áudios')
+        return dcc.Graph(figure=fig)
+    else:
+        return html.Div("Gráfico de distribuição das durações não encontrado.")
 
-print("\n🧠 Resultados dos Modelos")
-print("\nÁrvore de Decisão")
-# Adicione dados da Árvore de Decisão quando disponíveis.
+# Callback para atualizar o conteúdo da aba de resultados dos modelos
+@dash_app.callback(
+    dash.dependencies.Output('model-results-content', 'children'),
+    []
+)
+def update_model_results():
+    children = []
+    if os.path.exists(confusion_matrix_path):
+        children.append(html.Img(src=confusion_matrix_path, style={'width': '50%'}))
+    else:
+        children.append(html.Div("Matriz de Confusão do CNN não encontrada."))
+    
+    if os.path.exists(scatter_plot_path):
+        children.append(html.Img(src=scatter_plot_path, style={'width': '50%'}))
+    else:
+        children.append(html.Div("Gráfico de Dispersão do CNN não encontrado."))
+    
+    return children
 
-print("\nSVM")
-# Adicione dados do SVM quando disponíveis.
-
-print("\nCNN")
-if confusion_matrix_image:
-    print(f"Matriz de Confusão - CNN: {confusion_matrix_image}")
-else:
-    print("Matriz de Confusão do CNN não encontrada.")
-
-if scatter_plot_image:
-    print(f"Gráfico de Dispersão - CNN: {scatter_plot_image}")
-else:
-    print("Gráfico de Dispersão do CNN não encontrado.")
+if __name__ == '__main__':
+    app.run(debug=True)
