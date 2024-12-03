@@ -1,24 +1,100 @@
 <!DOCTYPE html>
-<html>
+<html lang="pt-br">
 <head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Dashboard de Análise de Dados e Modelos</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600&family=Roboto:wght@300;400;500;700&display=swap" rel="stylesheet">
     <style>
+        /* Estilo Global */
         body {
-            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            font-family: 'Roboto', sans-serif;
+            background: linear-gradient(135deg, #f5f7fa, #c3cfe2);
+            color: #333;
         }
-        h1 {
+
+        /* Cabeçalho */
+        header {
+            background: #2c3e50;
+            color: white;
+            padding: 20px;
             text-align: center;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
         }
-        #dashboard {
-            width: 100%;
-            height: 800px;
+
+        header h1 {
+            font-family: 'Inter', sans-serif;
+            font-size: 2rem;
+            margin: 0;
+            font-weight: 600;
+        }
+
+        /* Conteúdo principal */
+        main {
+            margin: 20px auto;
+            padding: 0 15px;
+            max-width: 1200px;
+        }
+
+        /* Estilo do Dash */
+        .dash-tabs {
+            margin-top: 20px;
+            border-radius: 10px;
+            background: #ffffff;
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+            overflow: hidden;
+        }
+
+        .tab-content {
+            padding: 20px;
+            border-top: 1px solid #ddd;
+            background: #f9f9f9;
+        }
+
+        /* Abas */
+        .dash-tabs .tab {
+            background: #34495e;
+            color: white;
+            text-align: center;
+            padding: 10px;
+            font-size: 1rem;
+            font-weight: 500;
+            cursor: pointer;
+        }
+
+        .dash-tabs .tab:hover {
+            background: #3b5998;
+        }
+
+        .dash-tabs .tab-active {
+            background: #2980b9;
+        }
+
+        /* Gráficos */
+        .dash-graph {
+            margin: 20px 0;
+            padding: 15px;
+            border-radius: 10px;
+            background: white;
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+        }
+
+        /* Responsividade */
+        @media (max-width: 768px) {
+            header h1 {
+                font-size: 1.5rem;
+            }
         }
     </style>
 </head>
 <body>
-    <h1>Dashboard de Análise de Dados e Modelos</h1>
-    <div id="dashboard">
-        <iframe src="/dashboard/" width="100%" height="800px"></iframe>
-    </div>
+    <header>
+        <h1>Dashboard de Análise de Dados e Modelos</h1>
+    </header>
+    <main>
+        <iframe src="/dashboard/" width="100%" height="800px" style="border: none;"></iframe>
+    </main>
 </body>
 </html>

@@ -1,3 +1,5 @@
+# process.py
+
 import numpy as np
 import pandas as pd
 from tensorflow.keras.models import load_model
@@ -6,7 +8,6 @@ from sklearn.metrics import confusion_matrix
 import os
 import sys
 import librosa
-from tensorflow.keras import layers, models
 
 # Adicionar caminho de módulos externos
 module_path = os.path.abspath('../IA/redes-neurais-convolucionais/src')
@@ -16,6 +17,14 @@ if module_path not in sys.path:
 # Caminhos importantes
 MODEL_PATH = os.path.abspath('../../IA/redes-neurais-convolucionais/src/speech_command_model.h5')
 EVAL_DATA_PATH = os.path.abspath('../../data/mini_speech_commands')
+
+# Carregar modelo
+print("Carregando modelo...")
+model = load_model(MODEL_PATH)
+print("Modelo carregado com sucesso.")
+
+# Exibir a arquitetura do modelo
+model.summary()
 
 # Função para carregar dados de avaliação
 def load_eval_data(eval_data_path, max_len=126):
@@ -33,29 +42,20 @@ def load_eval_data(eval_data_path, max_len=126):
                 mfcc = mfcc[:, :max_len]
             else:
                 mfcc = np.pad(mfcc, ((0, 0), (0, max_len - mfcc.shape[1])), mode='constant')
+            mfcc = np.pad(mfcc, ((0, 126 - mfcc.shape[0]), (0, 0)), mode='constant')
             x_eval.append(mfcc)
             y_eval.append(commands.index(command))
     x_eval = np.array(x_eval)
     y_eval = np.array(y_eval)
-    # Adicionar uma dimensão de canal
     x_eval = x_eval[..., np.newaxis]
+    
+    print(f"Dados carregados: {x_eval.shape[0]} amostras")
     return x_eval, y_eval
-
-# Carregar modelo
-print("Carregando modelo...")
-model = load_model(MODEL_PATH)
-print("Modelo carregado com sucesso.")
-
-# Exibir a arquitetura do modelo
-model.summary()
 
 # Carregar dados de avaliação
 print("Carregando dados de avaliação...")
 x_eval, y_eval = load_eval_data(EVAL_DATA_PATH, max_len=126)
 print("Dados carregados com sucesso.")
-
-# Garantir que a entrada tem a forma (samples, height, width, channels)
-print(f"Forma de x_eval: {x_eval.shape}")
 
 # Fazer previsões
 print("Fazendo previsões...")
@@ -66,9 +66,20 @@ y_pred_classes = np.argmax(predictions, axis=1)
 print("Gerando matriz de confusão...")
 conf_matrix = confusion_matrix(y_eval, y_pred_classes)
 
+# Verificar se a matriz de confusão está correta
+print("Matriz de confusão gerada:")
+print(conf_matrix)
+
+# Criar diretório para salvar os arquivos, se não existir
+DATA_DIR = os.path.join(os.getcwd(), 'data')
+if not os.path.exists(DATA_DIR):
+    os.makedirs(DATA_DIR)
+    print(f"Diretório '{DATA_DIR}' criado.")
+
 # Salvar matriz de confusão
 COMMANDS = ['down', 'go', 'left', 'no', 'right', 'stop', 'up', 'yes']
-pd.DataFrame(conf_matrix, index=COMMANDS, columns=COMMANDS).to_csv("confusion_matrix.csv", index=True)
+conf_matrix_df = pd.DataFrame(conf_matrix, index=COMMANDS, columns=COMMANDS)
+conf_matrix_df.to_csv(os.path.join(DATA_DIR, "confusion_matrix.csv"), index=True)
 print("Matriz de confusão salva.")
 
 # PCA incremental
@@ -84,42 +95,17 @@ scatter_data = pd.DataFrame({
     'Predicted': [COMMANDS[i] for i in y_pred_classes],
     'True': [COMMANDS[i] for i in y_eval]
 })
-scatter_data.to_csv("scatter_data.csv", index=False)
+
+# Verificar se os dados PCA estão corretos
+print("Dados PCA preparados:")
+print(scatter_data.head())
+
+scatter_data.to_csv(os.path.join(DATA_DIR, "scatter_data.csv"), index=False)
 print("Dados PCA salvos.")
 
-
-# -------------------
-# ** Arquitetura do Modelo Ajustada **
-# -------------------
-
-# Model Definition: Ajuste de camadas para evitar problemas com redução excessiva das dimensões
-
-def build_model(input_shape=(126, 126, 1), num_classes=8):
-    model = models.Sequential([
-        # Primeira camada convolucional
-        layers.Conv2D(32, (3, 3), activation='relu', padding='same', input_shape=input_shape),
-        layers.MaxPooling2D(pool_size=(2, 2)),
-
-        # Segunda camada convolucional
-        layers.Conv2D(64, (3, 3), activation='relu', padding='same'),
-        layers.MaxPooling2D(pool_size=(2, 2)),
-
-        # Terceira camada convolucional
-        layers.Conv2D(128, (3, 3), activation='relu', padding='same'),
-        layers.MaxPooling2D(pool_size=(2, 2)),
-
-        # Achatar a entrada para a camada densa
-        layers.Flatten(),
-
-        # Camada densa (fully connected)
-        layers.Dense(128, activation='relu'),
-        layers.Dense(num_classes, activation='softmax')
-    ])
-
-    model.compile(optimizer='adam', loss='sparse_categorical_crossentropy', metrics=['accuracy'])
-    return model
-
-# Construir e resumir o modelo
-model = build_model()
-model.summary()
-
+# Função para rodar o processo completo
+def run_evaluation():
+    print("Iniciando o processo de avaliação...")
+    # Carregar dados e fazer previsões
+    load_eval_data(EVAL_DATA_PATH)
+    print("Avaliação finalizada.")
